@@ -73,7 +73,7 @@ namespace Gas_Station
         }
 
         // функция для отправки денег на благотворительность
-        private void MoneyShare() { MessageBox.Show("СПАСИБО!"); }
+        private void MoneyShare() => MessageBox.Show("СПАСИБО!"); 
 
         private void FormLoadingGasoline_FormClosed(object sender, FormClosedEventArgs e)
         {
