@@ -1,12 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.OleDb;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Gas_Station
@@ -67,12 +59,12 @@ namespace Gas_Station
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(GasStation.AmountOfMoney < GasStation.RequiredMoney)
+            if (GasStation.AmountOfMoney < GasStation.RequiredMoney)
             {
                 MessageBox.Show("Введенной суммы не хватает для оплаты услуги!");
                 return;
             }
-            if(GasStation.AmountOfMoney > GasStation.RequiredMoney)
+            if (GasStation.AmountOfMoney > GasStation.RequiredMoney)
             {
                 DialogResult dialogResult = MessageBox.Show("Количество введенных денег избытычно!\nАвтомат не предоставляет сдачи!\nХотите продолжить?", "Подверждение действия", MessageBoxButtons.OKCancel);
                 if (dialogResult == DialogResult.Cancel)
@@ -83,7 +75,7 @@ namespace Gas_Station
             frm.Show();
         }
 
-        public void SetAmountOfGasolin (int AmountOfGasoline)
+        public void SetAmountOfGasolin(int AmountOfGasoline)
         {
             GasStation.AmountOfGasoline = AmountOfGasoline;
         }

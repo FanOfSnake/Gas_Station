@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.OleDb;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Gas_Station
@@ -21,7 +14,7 @@ namespace Gas_Station
         }
 
         private void timer1_Tick(object sender, EventArgs e)
-        {  
+        {
             progressBar1.PerformStep();
             label2.Text = "Осталось залить: " + --GasStation.AmountOfGasoline + " литров.";
             label3.Text = "Залито: " + ++GasStation.LoadedGasoline + " литров.";
@@ -63,9 +56,9 @@ namespace Gas_Station
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if(GasStation.AmountOfGasoline > 0)
+            if (GasStation.AmountOfGasoline > 0)
             {
-                DialogResult dialogResult = MessageBox.Show("У вас осталось незалитым " + GasStation.AmountOfGasoline.ToString() + " литров бензина.\nПри продолжении они будут утеряны!\nПродолжить?","Подверждение действия",MessageBoxButtons.OKCancel);
+                DialogResult dialogResult = MessageBox.Show("У вас осталось незалитым " + GasStation.AmountOfGasoline.ToString() + " литров бензина.\nПри продолжении они будут утеряны!\nПродолжить?", "Подверждение действия", MessageBoxButtons.OKCancel);
                 if (dialogResult == DialogResult.Cancel)
                     return;
             }
@@ -73,7 +66,7 @@ namespace Gas_Station
         }
 
         // функция для отправки денег на благотворительность
-        private void MoneyShare() => MessageBox.Show("СПАСИБО!"); 
+        private void MoneyShare() => MessageBox.Show("СПАСИБО!");
 
         private void FormLoadingGasoline_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -83,6 +76,20 @@ namespace Gas_Station
                 if (dialogResult == DialogResult.Yes)
                     MoneyShare();
             }
+
+            using (StreamWriter OpLogSW = new StreamWriter($"..\\..\\Чеки\\Чек.txt", false, System.Text.Encoding.Default))
+            {
+                OpLogSW.Write(
+                    $"Чек по операции от {DateTime.UtcNow.ToLongDateString()}\n" +
+                    $"Вид бензина: {GasStation.SelectedGasType}\n" +
+                    $"Объем залитого бензина: {GasStation.LoadedGasoline}\n" +
+                    $"Цена всего объема бензина: {GasStation.RequiredMoney}\n" +
+                    $"Предоставлено к оплате: {GasStation.AmountOfMoney}\n" +
+                    $"Остаток по операции: {GasStation.AmountOfMoney-GasStation.RequiredMoney}\n" +
+                    $"Спасибо за покупку!"
+                    );
+            }
+
             //очищааем данные терминала о работе
             GasStation.AmountOfGasoline = 0;
             GasStation.AmountOfMoney = 0;
